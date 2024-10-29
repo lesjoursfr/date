@@ -1,37 +1,62 @@
 {
-  "name": "date.js",
-  "version": "0.3.3",
-  "description": "dates for humans",
-  "main": "index.js",
-  "dependencies": {
-    "debug": "~3.1.0"
-  },
-  "devDependencies": {
-    "better-assert": "~1.0.0",
-    "browserify": "^16.1.1",
-    "mocha": "~4.0.1",
-    "uglify-js": "^3.3.20"
-  },
-  "scripts": {
-    "test": "make test"
-  },
-  "keywords": [
-    "nlp",
-    "natural language processing",
-    "time",
-    "parser",
-    "cfg",
-    "dates",
-    "humans",
-    "parsing"
-  ],
-  "repository": "https://github.com/MatthewMueller/date",
-  "author": "Matthew Mueller",
-  "license": "MIT",
-  "spm": {
-    "main": "index.js",
-    "dependencies": {
-      "debug": "0.8.1"
-    }
-  }
+	"name": "@lesjoursfr/date",
+	"version": "0.0.0",
+	"description": "Dates for humans.",
+	"license": "MIT",
+	"repository": "lesjoursfr/date",
+	"homepage": "https://github.com/lesjoursfr/date#readme",
+	"bugs": {
+		"url": "https://github.com/lesjoursfr/date/issues"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"engines": {
+		"node": "20.x || 22.x"
+	},
+	"keywords": [
+		"nlp",
+		"natural language processing",
+		"time",
+		"parser",
+		"cfg",
+		"dates",
+		"humans",
+		"parsing"
+	],
+	"main": "./lib/index.js",
+	"types": "./lib/index.d.ts",
+	"files": [
+		"lib/**/*",
+		"src/**/*"
+	],
+	"scripts": {
+		"freshlock": "rm -rf node_modules/ && rm .yarn/install-state.gz && rm yarn.lock && yarn",
+		"check-lint": "eslint",
+		"check-format": "prettier --check .",
+		"check-tsc": "tsc --noEmit",
+		"lint": "eslint --fix",
+		"format": "prettier --write .",
+		"build": "tsc -p tsconfig.build.json",
+		"test": "mocha"
+	},
+	"dependencies": {
+		"debug": "^4.3.7"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.13.0",
+		"@tsconfig/node20": "^20.1.4",
+		"@types/debug": "^4.1.12",
+		"@types/mocha": "^10.0.9",
+		"@types/node": "^22.8.1",
+		"eslint": "^9.13.0",
+		"eslint-config-prettier": "^9.1.0",
+		"globals": "^15.11.0",
+		"mocha": "^10.7.3",
+		"prettier": "^3.3.3",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.6.3",
+		"typescript-eslint": "^8.11.0"
+	},
+	"packageManager": "yarn@4.5.1"
 }
