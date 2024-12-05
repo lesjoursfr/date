@@ -35,7 +35,7 @@ const rDays = /\b(sun(day)?|mon(day)?|tues(day)?|wed(nesday)?|thur(sday|s)?|fri(
 const rMonths =
   /^((\d{1,2})\s*(st|nd|rd|th))\s(day\s)?(of\s)?(january|february|march|april|may|june|july|august|september|october|november|december)/i;
 const rPast = /\b(last|yesterday|ago|today)\b/;
-const rDayMod = /\b(morning|noon|afternoon|night|evening|midnight)\b/;
+const rDayMod = /\b(morning|noon|afternoon|tonight|evening|midnight)\b/;
 const rAgo = /^(\d*)\s?\b(second|minute|hour|day|week|month|year)[s]?\b\s?ago$/;
 
 type TimeUnit = "second" | "minute" | "hour" | "day" | "week" | "month" | "year";
@@ -132,13 +132,13 @@ export default class Parser {
       this.ago() ||
       this.yesterday() ||
       this.tomorrow() ||
-      this.noon() ||
+      this.am() ||
+      this.pm() ||
       this.midnight() ||
-      this.night() ||
+      this.tonight() ||
       this.evening() ||
       this.afternoon() ||
       this.morning() ||
-      this.tonight() ||
       this.meridiem() ||
       this.hourminute() ||
       this.athour() ||
@@ -467,14 +467,30 @@ export default class Parser {
   }
 
   /**
-   * Noon
+   * Morning / AM (arbitrarily set at 7am)
    */
-  private noon(): "noon" | undefined {
+  private am(): "am" | undefined {
     let captures;
-    if ((captures = /^noon\b/.exec(this.str))) {
+    if ((captures = /^am\b/.exec(this.str))) {
       this.skip(captures);
-      this.date.date.setHours(12, 0, 0);
-      return "noon";
+      if (!this.date.changed("hours")) {
+        this.date.date.setHours(7, 0, 0);
+      }
+      return "am";
+    }
+  }
+
+  /**
+   * Noon / PM (arbitrarily set at 12am)
+   */
+  private pm(): "pm" | undefined {
+    let captures;
+    if ((captures = /^pm\b/.exec(this.str))) {
+      this.skip(captures);
+      if (!this.date.changed("hours")) {
+        this.date.date.setHours(12, 0, 0);
+      }
+      return "pm";
     }
   }
 
@@ -491,15 +507,18 @@ export default class Parser {
   }
 
   /**
-   * Night (arbitrarily set at 7pm)
+   * Tonight (arbitrarily set at 7pm)
    */
-  private night(): "night" | undefined {
+  private tonight(): "tonight" | undefined {
     let captures;
-    if ((captures = /^night\b/.exec(this.str))) {
+    if ((captures = /^tonight\b/.exec(this.str))) {
       this.skip(captures);
       this._meridiem = "pm";
-      this.date.date.setHours(19, 0, 0);
-      return "night";
+      if (!this.date.changed("hours")) {
+        this.date.date.setHours(19, 0, 0);
+      }
+
+      return "tonight";
     }
   }
 
@@ -545,18 +564,6 @@ export default class Parser {
         this.date.date.setHours(8, 0, 0);
       }
       return "morning";
-    }
-  }
-
-  /**
-   * Tonight
-   */
-  private tonight(): "tonight" | undefined {
-    let captures;
-    if ((captures = /^tonight\b/.exec(this.str))) {
-      this.skip(captures);
-      this._meridiem = "pm";
-      return "tonight";
     }
   }
 

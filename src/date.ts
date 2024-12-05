@@ -148,7 +148,7 @@ export default class ParserDate {
     d.setMonth(month);
 
     // Handle dates with less days
-    const dim = this.daysInMonth(month);
+    const dim = this.daysInMonth(d.getMonth());
     d.setDate(Math.min(dim, day));
     return this;
   }

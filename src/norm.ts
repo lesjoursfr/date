@@ -87,8 +87,8 @@ function restoreTokens(syms: Array<ParserSymbol>) {
  * Given a T symbol, try to restore its normal form (return wrapped in JSON if it's a complete date string {normal: <normal string>}), or just return the plain string as token
  */
 function restoreNormal(T: T): string | { normal: string } {
-  const token = T.token as string;
-  if (token.match(util.reT)) {
+  if ((T.token as string).match(util.reT)) {
+    const token = T.token as string;
     // if it is normal form, convert back into the normal1 or normal2 strings
     const split = util.splitT(token)!;
     if (_.includes(split, undefined)) {
@@ -121,7 +121,10 @@ function restoreNormal(T: T): string | { normal: string } {
       const u = units[i],
         kval = parseFloat(dt[u]!),
         // set number has default, or is 0, 1
-        numStr = Number.isNaN(kval) || kval == 0 || Math.abs(kval) == 1 ? "" : dt[u]!.toString() + " ";
+        numStr =
+          Number.isNaN(kval) || kval.toString() !== dt[u] || kval == 0 || Math.abs(kval) == 1
+            ? ""
+            : dt[u]!.toString() + " ";
 
       // set canon from lemma only if it exists, and key is word, else use u
       let canon: string = u;
@@ -143,7 +146,7 @@ function restoreNormal(T: T): string | { normal: string } {
     return dtStr;
   } else {
     // else it's just plain english, return
-    return token;
+    return T.canon !== undefined ? T.canon : (T.token as string);
   }
 }
 
@@ -394,7 +397,6 @@ function nTnRedistribute(syms: Array<ParserSymbol>): Array<ParserSymbol> {
         carry.unshift(_.pullAt(syms, Li)[0]);
       }
       syms.splice(LLi + 1, 0, ...carry);
-      // TODO remove ??      syms = _.flatten(syms);
     }
   }
 
@@ -486,11 +488,11 @@ function nextAvailable(T: T, offset?: string): T {
   const finT1 = finalizeT([T], offset)[0] as T,
     stdStr1 = util.TtoStdT(finT1),
     UTC1 = Date.parse(stdStr1),
-    UTCnow = Date.parse(new Date().toString()),
+    UTCnow = Date.now(),
     UTCdiff = UTC1 - UTCnow;
   // if UTC1 is not in the future, add next unit
   if (UTCdiff < 0) {
-    T.dt![nextUnit] = (((T.dt![nextUnit] as unknown as number) || 0) + 1).toString(); // TODO ????
+    T.dt![nextUnit] = (((T.dt![nextUnit] as unknown as number) || 0) + 1).toString();
     const finT2 = finalizeT([T], offset)[0] as T;
     return finT2;
   } else {
@@ -575,7 +577,7 @@ function removeDefaults(T: T) {
   }
   // delete meridiem too
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  delete (T.t as any)["mer"];
+  delete (T.t as any).mer;
 
   return T;
 }

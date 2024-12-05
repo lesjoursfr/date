@@ -129,7 +129,6 @@ function parseNormal1(str: string): { tokensIn: Array<string>; tokensOut: Array<
           const advanceDate = util.stdT(new Date(advanceHead));
           if (advanceDate != "Invalid Date") {
             // if advanceDate is parseable, set to current, update heads
-            normalDate = advanceDate;
             head = head + " " + strArr.shift();
             advanceHead = advanceHead + " " + strArr[0];
           } else {

@@ -34,7 +34,7 @@ for (let i = 0; i < timeUnitOrder.length; i++) {
 }
 type TimeObjectUnits = "y" | "M" | "d" | "h" | "m" | "s";
 export const tOrdering: Array<TimeObjectUnits> = ["y", "M", "d", "h", "m", "s"];
-const tFactor = [365, 30, 24, 60, 60];
+const tFactor = [365, 12, 30, 24, 60, 60];
 
 /**
  * Delimiters for stdT string
@@ -66,10 +66,10 @@ export function TtoStdT(str: string | T, offset?: string | Date): string {
     // e.g. '5.123' tends to be '05.123', fix it
     const predecimal = /(\d+)(\.\d+)?/.exec(num)![1],
       postdecimal = /(\d+)\.?(\d+)?/.exec(num)![2];
-    if (predecimal.length == 1) {
+    if (predecimal.length === 1) {
       num = "0" + num;
     }
-    if (postdecimal !== null) {
+    if (postdecimal !== undefined) {
       for (let j = 0; j < 3 - postdecimal.length; j++) {
         num = num + "0";
       }
@@ -206,11 +206,11 @@ export function isSym(s: string | ParserSymbol, arr: Array<string>): boolean {
  */
 export function largestUnit(T: T): TimeObjectUnits | null {
   let lu = _.find(tOrdering, function (unit) {
-    return T.t?.[unit] !== undefined;
+    return T.t?.[unit] ? true : false;
   });
   if (lu === null) {
     lu = _.find(tOrdering, function (unit) {
-      return T.dt?.[unit] !== undefined;
+      return T.dt?.[unit] ? true : false;
     });
   }
   return lu;
@@ -438,7 +438,7 @@ function safeParseFloat(val: string | number | undefined): number {
 }
 
 function safeParseInt(val: string | number | undefined): number {
-  return typeof val === "number" ? Math.round(val) : parseInt(val || "0", 10);
+  return typeof val === "number" ? Math.floor(val) : parseInt(val || "0", 10);
 }
 
 /**

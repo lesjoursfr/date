@@ -125,13 +125,13 @@ export class t extends AbstractParserSymbol {
 
   public hasValues(): boolean {
     return (
-      this.ms !== undefined &&
-      this.s !== undefined &&
-      this.m !== undefined &&
-      this.h !== undefined &&
-      this.d !== undefined &&
-      this.w !== undefined &&
-      this.M !== undefined &&
+      this.ms !== undefined ||
+      this.s !== undefined ||
+      this.m !== undefined ||
+      this.h !== undefined ||
+      this.d !== undefined ||
+      this.w !== undefined ||
+      this.M !== undefined ||
       this.y !== undefined
     );
   }
@@ -176,13 +176,13 @@ export class dt extends AbstractParserSymbol {
 
   public hasValues(): boolean {
     return (
-      this.ms !== undefined &&
-      this.s !== undefined &&
-      this.m !== undefined &&
-      this.h !== undefined &&
-      this.d !== undefined &&
-      this.w !== undefined &&
-      this.M !== undefined &&
+      this.ms !== undefined ||
+      this.s !== undefined ||
+      this.m !== undefined ||
+      this.h !== undefined ||
+      this.d !== undefined ||
+      this.w !== undefined ||
+      this.M !== undefined ||
       this.y !== undefined
     );
   }
@@ -222,8 +222,8 @@ export class T extends AbstractParserSymbol {
       const split = value.split(","),
         _t = split[0].split(":").pop()!,
         _dt = split[1].split(":").pop()!;
-      this.t = new t(_t);
-      this.dt = new dt(_dt);
+      this.t = _t ? new t(_t) : null;
+      this.dt = _dt ? new dt(_dt) : null;
     }
   }
 }
@@ -316,19 +316,19 @@ export default function symbol(
 
   let s;
   if (typeof str === "object") {
-    if (str["start"] && str["end"]) {
+    if (str.start && str.end) {
       // range: with 'start' and 'end'
-      s = new symbolConstructors["rT"](str);
+      s = new symbolConstructors.rT(str);
     } else {
       // wrong object
-      s = null;
+      throw new Error(`Can't create symbol for ${str}!`);
     }
   } else if (typeof str === "number" || parseFloat(str).toString() === str) {
     // 'n'
-    s = new symbolConstructors["n"](str);
+    s = new symbolConstructors.n(str);
   } else if (str.match(util.reT)) {
     // if is of the T string format t:<val>,dt:<val>
-    s = str.match(/\s+/g) ? null : new symbolConstructors["T"](str);
+    s = str.match(/\s+/g) ? null : new symbolConstructors.T(str);
   } else {
     const lem = util.lemma(str);
     s = lem.name ? new symbolConstructors[lem.name](lem.value, lem.name) : null;
