@@ -52,5 +52,8 @@ jobs:
       - name: Install
         run: npm install
 
+      - name: Build project
+        run: npm run build
+
       - name: Run tests
-        run: npx mocha
+        run: npm run test
