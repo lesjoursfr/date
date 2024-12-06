@@ -34,6 +34,11 @@ export default function tokenize(str: string): {
   tokensIn: Array<string>;
   symbols: Array<ParserSymbol | null>;
 } {
+  // safety
+  if (str.length > 1000) {
+    throw new Error(`The input exceed the limit of 1000 chars: ${str.length}!`);
+  }
+
   // split num from alphabets
   str = (" " + str)
     .replace(/\s+(\d+)([a-zA-Z]+)/g, " $1 $2")
