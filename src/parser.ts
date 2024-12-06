@@ -132,6 +132,7 @@ export default class Parser {
       this.ago() ||
       this.yesterday() ||
       this.tomorrow() ||
+      this.fortnight() ||
       this.am() ||
       this.pm() ||
       this.midnight() ||
@@ -463,6 +464,18 @@ export default class Parser {
       this.skip(captures);
       this.date.day(1);
       return "tomorrow";
+    }
+  }
+
+  /**
+   * Fortnight
+   */
+  private fortnight(): "fortnight" | undefined {
+    let captures;
+    if ((captures = /^fortnight/.exec(this.str))) {
+      this.skip(captures);
+      this.date.day(14);
+      return "fortnight";
     }
   }
 

@@ -79,7 +79,7 @@
 			"th day"
 		],
 		"t:,dt:1w": ["st week", "nd week", "rd week", "th week"],
-		"t:,dt:14d": ["day", "fortnight"],
+		"t:,dt:14d": ["fortnight"],
 		"t:=0h=0m=0s1mer,dt:": ["pm", "p.m", "p.m.", "noon"],
 		"t:,dt:1d": ["tomorrow", "tmr"],
 		"t:,dt:-1d": ["yesterday", "ytd"],
