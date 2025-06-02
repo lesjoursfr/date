@@ -48,7 +48,7 @@
 		"@tsconfig/node20": "^20.1.5",
 		"@types/debug": "^4.1.12",
 		"@types/mocha": "^10.0.10",
-		"@types/node": "^22.15.24",
+		"@types/node": "^22.15.27",
 		"eslint": "^9.27.0",
 		"eslint-config-prettier": "^10.1.5",
 		"globals": "^16.2.0",
