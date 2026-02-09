@@ -120,6 +120,7 @@ function parseNormal1(str: string): { tokensIn: Array<string>; tokensOut: Array<
   const strArr = str.split(/\s+/g);
 
   // init the normalDate and head string used
+  // eslint-disable-next-line no-useless-assignment
   let normalDate: string | null = null,
     head = "";
   // do while there's still string to go
