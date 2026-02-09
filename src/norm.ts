@@ -51,6 +51,7 @@ function restoreTokens(syms: Array<ParserSymbol>) {
   for (let i = 0; i < syms.length; i++) {
     const s = syms[i],
       sName = util.sName(s);
+    // eslint-disable-next-line no-useless-assignment
     let token: string | { normal: string } = "";
     switch (sName) {
       case "n":
@@ -245,28 +246,33 @@ function execOp(
   offset?: string
 ): Array<ParserSymbol> | ParserSymbol {
   const otype = util.opType(L, op, R);
-  let res = null;
+
   if (_.includes(["nn"], otype)) {
-    res = nnOp(L as n, op, R as n);
-  } else if (_.includes(["nT"], otype)) {
-    res = nTOp(L as n, op, R as T);
-  } else if (_.includes(["TT"], otype)) {
-    res = TTOp(L as T, op, R as T);
-  } else if (_.includes(["ToT", "oT", "To"], otype)) {
-    res = ToTOp(L as T, op, R as T, offset);
-  } else if (_.includes(["oo"], otype)) {
-    res = ooOp(L as o, R as o);
-  } else if (_.includes(["rT", "TrT"], otype)) {
-    // has optional arg
-    res = rTOp(L, R);
-  } else if (_.includes(["cT", "fcT", "crT", "fcrT"], otype)) {
-    // has optional arg
-    res = cTOp(L, R);
-  } else {
-    // not executable, e.g. not in the right order, return fully
-    res = op == null ? [L, R] : [L, op, R];
+    return nnOp(L as n, op, R as n);
   }
-  return res;
+  if (_.includes(["nT"], otype)) {
+    return nTOp(L as n, op, R as T);
+  }
+  if (_.includes(["TT"], otype)) {
+    return TTOp(L as T, op, R as T);
+  }
+  if (_.includes(["ToT", "oT", "To"], otype)) {
+    return ToTOp(L as T, op, R as T, offset);
+  }
+  if (_.includes(["oo"], otype)) {
+    return ooOp(L as o, R as o);
+  }
+  if (_.includes(["rT", "TrT"], otype)) {
+    // has optional arg
+    return rTOp(L, R);
+  }
+  if (_.includes(["cT", "fcT", "crT", "fcrT"], otype)) {
+    // has optional arg
+    return cTOp(L, R);
+  }
+
+  // not executable, e.g. not in the right order, return fully
+  return op == null ? [L, R] : [L, op, R];
 }
 
 /**

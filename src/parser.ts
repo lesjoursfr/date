@@ -168,11 +168,13 @@ export default class Parser {
   private lookahead(n: number): string {
     let fetch = n - this.stash.length;
     if (fetch === 0) {
+      // eslint-disable-next-line no-useless-assignment
       return this.lookahead(++n);
     }
     while (fetch-- > 0) {
       this.stash.push(this.advance());
     }
+    // eslint-disable-next-line no-useless-assignment
     return this.stash[--n];
   }
 
