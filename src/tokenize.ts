@@ -3,8 +3,8 @@
 /**
  * Module Dependencies
  */
-import symbol, { ParserSymbol } from "./symbol";
-import * as util from "./util";
+import symbol, { ParserSymbol } from "./symbol.js";
+import * as util from "./util.js";
 
 /**
  * regexes for Subnormal forms

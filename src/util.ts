@@ -1,9 +1,9 @@
 /**
  * Module Dependencies
  */
-import maps from "./maps.json";
-import * as _ from "./subdash";
-import { dt, ParserSymbol, T, t } from "./symbol";
+import maps from "./maps.json" with { type: "json" };
+import * as _ from "./subdash.js";
+import { dt, ParserSymbol, T, t } from "./symbol.js";
 
 // The Time Object
 type TimeObject = {

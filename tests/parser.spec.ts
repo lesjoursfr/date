@@ -2,7 +2,7 @@
  * Module Dependencies
  */
 import { notStrictEqual, strictEqual } from "assert";
-import parse from "../src/index";
+import parse from "../src/index.js";
 
 /**
  * Some predefined dates

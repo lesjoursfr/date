@@ -2,8 +2,8 @@
  * Module Dependencies
  */
 import createDebug from "debug";
-import ParserDate from "./date";
-import norm from "./norm";
+import ParserDate from "./date.js";
+import norm from "./norm.js";
 const debug = createDebug("date:parser");
 
 /**

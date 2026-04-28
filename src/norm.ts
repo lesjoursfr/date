@@ -5,10 +5,10 @@
 /**
  * Module Dependencies
  */
-import * as _ from "./subdash";
-import symbol, { n, o, ParserSymbol, ParserSymbolUnits, T } from "./symbol";
-import tokenize from "./tokenize";
-import * as util from "./util";
+import * as _ from "./subdash.js";
+import symbol, { n, o, ParserSymbol, ParserSymbolUnits, T } from "./symbol.js";
+import tokenize from "./tokenize.js";
+import * as util from "./util.js";
 
 // a partial implementation of norm
 /**
