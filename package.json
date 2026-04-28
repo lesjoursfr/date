@@ -3,7 +3,10 @@
 	"version": "3.0.0",
 	"description": "Dates for humans.",
 	"license": "MIT",
-	"repository": "lesjoursfr/date",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/lesjoursfr/date.git"
+	},
 	"homepage": "https://github.com/lesjoursfr/date#readme",
 	"bugs": {
 		"url": "https://github.com/lesjoursfr/date/issues"
